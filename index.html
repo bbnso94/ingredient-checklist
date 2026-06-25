@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chili Mac Ingredients Checklist</title>
+    <style>
+      :root {
+        --bg: #f3efe9;
+        --panel: #ffffff;
+        --text: #171717;
+        --muted: #4a4a4a;
+        --accent: #0058a3;
+        --ok: #0f7a3f;
+        --line: #ddd4ca;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 2rem 1rem;
+        font-family: "Avenir Next", "Segoe UI", Tahoma, sans-serif;
+        background: linear-gradient(160deg, #fdf7ef 0%, #f2efe9 100%);
+        color: var(--text);
+      }
+
+      .app {
+        max-width: 860px;
+        margin: 0 auto;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+      }
+
+      header h1 {
+        margin: 0 0 0.35rem;
+        font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
+      }
+
+      header p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .toolbar {
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      button {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        padding: 0.55rem 0.9rem;
+        font-size: 0.95rem;
+        cursor: pointer;
+      }
+
+      button:focus-visible {
+        outline: 3px solid #000;
+        outline-offset: 2px;
+      }
+
+      button:hover {
+        border-color: var(--accent);
+      }
+
+      .status {
+        margin-top: 1rem;
+        font-weight: 600;
+      }
+
+      .status span {
+        color: var(--accent);
+      }
+
+      .category {
+        margin-top: 1.3rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--line);
+      }
+
+      .category h2 {
+        margin: 0 0 0.5rem;
+        font-size: 1.15rem;
+      }
+
+      .category ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+        padding: 0.45rem 0;
+      }
+
+      .item label {
+        display: block;
+        line-height: 1.4;
+        width: 100%;
+      }
+
+      .item input[type="checkbox"] {
+        margin-top: 0.35rem;
+        width: 1.05rem;
+        height: 1.05rem;
+        flex: 0 0 auto;
+      }
+
+      .item.checked label {
+        color: #5f5f5f;
+      }
+
+      .item.checked label .name {
+        text-decoration: line-through;
+      }
+
+      .name {
+        display: block;
+        font-size: 1.03rem;
+      }
+
+      .meta {
+        display: block;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .muted-note {
+        margin-top: 0.4rem;
+        color: var(--muted);
+      }
+
+      .help {
+        margin-top: 1.2rem;
+        border: 1px dashed var(--line);
+        padding: 0.8rem;
+        border-radius: 8px;
+        color: var(--muted);
+        background: #f9f6f1;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 1rem 0.8rem;
+        }
+
+        .app {
+          padding: 1rem;
+          border-radius: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <h1>Chili Mac Grocery Checklist</h1>
+        <p>3 generous servings — items persist across visits in this browser.</p>
+      </header>
+
+      <div class="toolbar" aria-label="Checklist controls">
+        <button id="markAll">Check all items</button>
+        <button id="clearAll">Clear all checks</button>
+      </div>
+
+      <p id="progress" class="status" role="status" aria-live="polite">
+        <span>0</span> / 20 items checked
+      </p>
+
+      <section class="category" aria-labelledby="cat-meat">
+        <h2 id="cat-meat">Meat, dairy, and produce</h2>
+        <ul>
+          <li class="item">
+            <input id="i-ground-beef" class="item-check" type="checkbox" data-key="ground-beef" />
+            <label for="i-ground-beef">
+              <span class="name">80/20 Ground Beef Chuck, 1-pound tray</span>
+              <span class="meta">Buy one; use the entire package</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-cheddar" class="item-check" type="checkbox" data-key="cheddar" />
+            <label for="i-cheddar">
+              <span class="name">Great Value Sharp Cheddar Block, 8 ounces</span>
+              <span class="meta">Use ~6 oz in chili mac + ~2 oz for topping</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-onion" class="item-check" type="checkbox" data-key="yellow-onion" />
+            <label for="i-onion">
+              <span class="name">Fresh Whole Yellow Onion</span>
+              <span class="meta">Buy one; use all</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-bell-pepper" class="item-check" type="checkbox" data-key="green-bell-pepper" />
+            <label for="i-bell-pepper">
+              <span class="name">Fresh Green Bell Pepper</span>
+              <span class="meta">Buy one; use all</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-garlic" class="item-check" type="checkbox" data-key="minced-garlic" />
+            <label for="i-garlic">
+              <span class="name">Great Value Minced Garlic in Water, 8-ounce jar</span>
+              <span class="meta">Use ~1½ tablespoons</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-sour-cream" class="item-check" type="checkbox" data-key="sour-cream" />
+            <label for="i-sour-cream">
+              <span class="name">Great Value Original Sour Cream, 16 ounces</span>
+              <span class="meta">Use for topping or stir into bowls</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-green-onions" class="item-check" type="checkbox" data-key="green-onions" />
+            <label for="i-green-onions">
+              <span class="name">Fresh Green Onions, one bunch</span>
+              <span class="meta">Use 2–3 for topping</span>
+            </label>
+          </li>
+        </ul>
+      </section>
+
+      <section class="category" aria-labelledby="cat-pantry">
+        <h2 id="cat-pantry">Pasta, canned goods, and sauces</h2>
+        <ul>
+          <li class="item">
+            <input id="i-macaroni" class="item-check" type="checkbox" data-key="elbow-macaroni" />
+            <label for="i-macaroni">
+              <span class="name">Great Value Elbow Macaroni, 16 ounces</span>
+              <span class="meta">Use ~8 ounces (half the box)</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-diced-tomatoes" class="item-check" type="checkbox" data-key="petite-diced-tomatoes" />
+            <label for="i-diced-tomatoes">
+              <span class="name">Great Value Petite Diced Tomatoes, 14.5 ounces</span>
+              <span class="meta">Use the entire can, including juice</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-tomato-sauce" class="item-check" type="checkbox" data-key="tomato-sauce" />
+            <label for="i-tomato-sauce">
+              <span class="name">Great Value Tomato Sauce, 8 ounces</span>
+              <span class="meta">Use the entire can</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-tomato-paste" class="item-check" type="checkbox" data-key="tomato-paste" />
+            <label for="i-tomato-paste">
+              <span class="name">Great Value Tomato Paste, 6 ounces</span>
+              <span class="meta">Use ~2 tablespoons</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-beans" class="item-check" type="checkbox" data-key="kidney-beans" />
+            <label for="i-beans">
+              <span class="name">Great Value Dark-Red Kidney Beans, 15.5 ounces</span>
+              <span class="meta">Drain and rinse</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-broth" class="item-check" type="checkbox" data-key="beef-broth" />
+            <label for="i-broth">
+              <span class="name">Swanson Lower-Sodium Beef Broth, 32 ounces</span>
+              <span class="meta">Use ~2 cups, keep a little extra just in case</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-worceser" class="item-check" type="checkbox" data-key="worcestershire" />
+            <label for="i-worceser">
+              <span class="name">Lea &amp; Perrins Worcestershire Sauce, 10 fl oz</span>
+              <span class="meta">Use ~2 teaspoons</span>
+            </label>
+          </li>
+        </ul>
+      </section>
+
+      <section class="category" aria-labelledby="cat-seasoning">
+        <h2 id="cat-seasoning">Seasonings</h2>
+        <ul>
+          <li class="item">
+            <input id="i-chili" class="item-check" type="checkbox" data-key="chili-powder" />
+            <label for="i-chili">
+              <span class="name">Great Value Chili Powder, 3 ounces</span>
+              <span class="meta">Use ~2 tablespoons</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-cumin" class="item-check" type="checkbox" data-key="ground-cumin" />
+            <label for="i-cumin">
+              <span class="name">Great Value Ground Cumin, 2.5 ounces</span>
+              <span class="meta">Use ~1½ teaspoons</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-paprika" class="item-check" type="checkbox" data-key="smoked-paprika" />
+            <label for="i-paprika">
+              <span class="name">Great Value Smoked Paprika, 2 ounces</span>
+              <span class="meta">Use ~1 teaspoon</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-oregano" class="item-check" type="checkbox" data-key="oregano" />
+            <label for="i-oregano">
+              <span class="name">Great Value Oregano Leaves, 0.87 ounce</span>
+              <span class="meta">Use ~½ teaspoon</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-salt" class="item-check" type="checkbox" data-key="kosher-salt" />
+            <label for="i-salt">
+              <span class="name">Morton Coarse Kosher Salt, 16 ounces</span>
+              <span class="meta">Start with ~¾ teaspoon; adjust after adding cheese</span>
+            </label>
+          </li>
+          <li class="item">
+            <input id="i-pepper" class="item-check" type="checkbox" data-key="black-pepper" />
+            <label for="i-pepper">
+              <span class="name">Great Value Ground Black Pepper, 3 ounces</span>
+              <span class="meta">Use ~½ teaspoon</span>
+            </label>
+          </li>
+        </ul>
+      </section>
+
+      <section class="help" aria-label="Optional shopping note">
+        <h2 class="sr-only">Optional note</h2>
+        <p class="muted-note">
+          Optional: if you already have a seasoning on hand, uncheck or never check it. The list
+          remembers each item in your browser.
+        </p>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        const storageKey = "ingredient-checklist-state-v1";
+        const checks = document.querySelectorAll(".item-check");
+        const progress = document.getElementById("progress");
+
+        const total = checks.length;
+        const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+
+        function updateVisuals() {
+          checks.forEach((cb) => {
+            const li = cb.closest(".item");
+            li.classList.toggle("checked", cb.checked);
+          });
+
+          const checkedCount = Array.from(checks).filter((cb) => cb.checked).length;
+          progress.innerHTML = `<span>${checkedCount}</span> / ${total} items checked`;
+        }
+
+        checks.forEach((cb) => {
+          const key = cb.getAttribute("data-key");
+          cb.checked = Boolean(saved[key]);
+
+          cb.addEventListener("change", () => {
+            saved[key] = cb.checked;
+            localStorage.setItem(storageKey, JSON.stringify(saved));
+            updateVisuals();
+          });
+        });
+
+        document.getElementById("clearAll").addEventListener("click", () => {
+          checks.forEach((cb) => {
+            cb.checked = false;
+          });
+          localStorage.removeItem(storageKey);
+          updateVisuals();
+          progress.focus();
+        });
+
+        document.getElementById("markAll").addEventListener("click", () => {
+          checks.forEach((cb) => {
+            cb.checked = true;
+            saved[cb.getAttribute("data-key")] = true;
+          });
+          localStorage.setItem(storageKey, JSON.stringify(saved));
+          updateVisuals();
+        });
+
+        updateVisuals();
+      })();
+    </script>
+  </body>
+</html>
