@@ -16,6 +16,7 @@ https://bbnso94.github.io/ingredient-checklist/
 - Step-by-step cooking guide
 - Independent timers for prep, browning, simmering, pasta, cheese melt, optional oven finish, optional broiler finish, and rest
 - Local browser persistence through `localStorage`
+- Live cross-device sync through a shared ntfy topic while devices are open on the page
 
 ## Recipe Basis
 
@@ -40,4 +41,6 @@ Checklist and timer state are stored in the browser on the current device.
 
 - Refreshing keeps progress.
 - The page includes reset controls for all progress, checklists only, or timers only.
-- Progress does not sync across different phones or computers.
+- Open devices sync checklist and timer actions through `ntfy.sh`.
+- If live sync is unavailable, progress still saves locally on that device.
+- The sync topic is public-by-name, so do not put private information into the checklist.
