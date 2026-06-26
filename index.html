@@ -3,21 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Receipt-Based Chili Mac Cook Mode</title>
+    <title>Smoky Chipotle Chihuahua Chili Mac Cook Mode</title>
     <style>
       :root {
-        --paper: #fffaf0;
+        --paper: #fff9ef;
         --surface: #fffdf8;
-        --surface-strong: #f6efe3;
-        --ink: #1b1d1f;
-        --muted: #596065;
-        --line: #d8cbbb;
+        --surface-strong: #f4eadb;
+        --ink: #191b1f;
+        --muted: #5a6267;
+        --line: #d8c7b3;
         --accent: #0b6b63;
-        --accent-dark: #074c47;
-        --heat: #b93820;
-        --gold: #c88913;
+        --accent-dark: #064944;
+        --heat: #b73720;
+        --gold: #c48313;
+        --lime: #6b8f24;
         --done: #207044;
-        --shadow: 0 18px 48px rgba(46, 34, 18, 0.12);
+        --shadow: 0 18px 48px rgba(44, 31, 16, 0.12);
       }
 
       * {
@@ -34,10 +35,10 @@
         color: var(--ink);
         font-family: "Segoe UI", "Avenir Next", Tahoma, sans-serif;
         background:
-          linear-gradient(90deg, rgba(11, 107, 99, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(183, 55, 32, 0.07) 1px, transparent 1px),
           linear-gradient(0deg, rgba(11, 107, 99, 0.06) 1px, transparent 1px),
-          linear-gradient(155deg, #fff7e8 0%, #f9efe0 45%, #fffdf8 100%);
-        background-size: 26px 26px, 26px 26px, auto;
+          linear-gradient(145deg, #fff7e9 0%, #f7eddd 48%, #fffdf8 100%);
+        background-size: 28px 28px, 28px 28px, auto;
       }
 
       button,
@@ -50,8 +51,8 @@
         border-radius: 8px;
         background: #fff;
         color: var(--ink);
-        min-height: 42px;
-        padding: 0.55rem 0.78rem;
+        min-height: 44px;
+        padding: 0.58rem 0.82rem;
         cursor: pointer;
       }
 
@@ -88,12 +89,12 @@
         grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
         gap: 1rem;
         align-items: stretch;
-        margin: 0 0 1rem;
+        margin-bottom: 1rem;
       }
 
       .title-panel,
       .status-panel {
-        background: rgba(255, 253, 248, 0.94);
+        background: rgba(255, 253, 248, 0.96);
         border: 1px solid var(--line);
         border-radius: 8px;
         box-shadow: var(--shadow);
@@ -107,7 +108,7 @@
         margin: 0 0 0.35rem;
         color: var(--heat);
         font-size: 0.78rem;
-        font-weight: 800;
+        font-weight: 850;
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
@@ -119,7 +120,7 @@
       }
 
       .lede {
-        max-width: 68ch;
+        max-width: 72ch;
         margin: 0.75rem 0 0;
         color: var(--muted);
         line-height: 1.5;
@@ -138,7 +139,7 @@
         background: var(--surface-strong);
         padding: 0.45rem 0.7rem;
         font-size: 0.92rem;
-        font-weight: 700;
+        font-weight: 750;
       }
 
       .status-panel {
@@ -150,7 +151,7 @@
 
       .progress-title {
         margin: 0 0 0.35rem;
-        font-weight: 800;
+        font-weight: 850;
       }
 
       .progress-line {
@@ -170,12 +171,12 @@
         width: 0%;
         height: 100%;
         border-radius: inherit;
-        background: linear-gradient(90deg, var(--accent), var(--gold));
+        background: linear-gradient(90deg, var(--accent), var(--lime), var(--gold));
         transition: width 180ms ease;
       }
 
       .next-step {
-        margin: 0.7rem 0 0;
+        margin: 0.7rem 0 0.5rem;
         padding: 0.65rem;
         border-left: 4px solid var(--accent);
         background: #eef7f3;
@@ -196,11 +197,11 @@
         min-height: 40px;
         border: 1px solid var(--line);
         border-radius: 999px;
-        background: rgba(255, 253, 248, 0.94);
+        background: rgba(255, 253, 248, 0.96);
         color: var(--accent-dark);
         padding: 0.45rem 0.75rem;
         text-decoration: none;
-        font-weight: 700;
+        font-weight: 750;
       }
 
       section {
@@ -208,8 +209,8 @@
         padding: 1rem;
         border: 1px solid var(--line);
         border-radius: 8px;
-        background: rgba(255, 253, 248, 0.96);
-        box-shadow: 0 10px 26px rgba(46, 34, 18, 0.07);
+        background: rgba(255, 253, 248, 0.97);
+        box-shadow: 0 10px 26px rgba(44, 31, 16, 0.07);
       }
 
       .section-head {
@@ -226,7 +227,7 @@
       }
 
       .section-note {
-        max-width: 72ch;
+        max-width: 76ch;
         margin: 0.3rem 0 0;
         color: var(--muted);
         line-height: 1.45;
@@ -238,7 +239,7 @@
         background: #f4e0d6;
         color: var(--heat);
         padding: 0.35rem 0.6rem;
-        font-weight: 800;
+        font-weight: 850;
         font-size: 0.85rem;
       }
 
@@ -283,7 +284,7 @@
 
       .item-title {
         display: block;
-        font-weight: 800;
+        font-weight: 850;
         line-height: 1.3;
       }
 
@@ -330,7 +331,7 @@
         color: var(--accent-dark);
         padding: 0.25rem 0.5rem;
         font-size: 0.82rem;
-        font-weight: 800;
+        font-weight: 850;
       }
 
       .step-title {
@@ -433,6 +434,10 @@
         line-height: 1.45;
       }
 
+      .callout strong {
+        color: var(--heat);
+      }
+
       .sr-only {
         position: absolute;
         width: 1px;
@@ -481,18 +486,18 @@
     <main class="page">
       <div class="hero">
         <header class="title-panel">
-          <p class="eyebrow">Receipt-based cook mode</p>
-          <h1>Homemade Chili Mac Dinner for Three</h1>
+          <p class="eyebrow">Queso-finish cook mode</p>
+          <h1>Smoky Chipotle Chihuahua Chili Mac With Lime</h1>
           <p class="lede">
-            A hands-on cooking companion built from the Walmart receipt: beef chili mac with
-            cheddar, tomatoes, beans, spices, sour cream, and green onions. Check items off as
-            you cook and run the timers directly from this page.
+            A detailed cooking companion for the recipe decision: chili mac built from browned
+            chuck, tomatoes, beans, chipotle, elbow macaroni, and a stabilized Chihuahua-cheese
+            queso made with cornstarch, evaporated milk, butter, sour cream, and lime.
           </p>
           <div class="recipe-facts" aria-label="Recipe facts">
-            <span class="fact">3 generous servings</span>
-            <span class="fact">About 55 minutes</span>
-            <span class="fact">Receipt-adapted</span>
-            <span class="fact">Saves on this device</span>
+            <span class="fact">3 generous night servings</span>
+            <span class="fact">About 60 minutes</span>
+            <span class="fact">Chipotle queso finish</span>
+            <span class="fact">Live sync across open devices</span>
           </div>
         </header>
 
@@ -504,14 +509,14 @@
           <div class="progress-track" aria-hidden="true">
             <div id="progressFill" class="progress-fill"></div>
           </div>
-          <p id="nextStep" class="next-step">Next: gather the receipt ingredients.</p>
+          <p id="nextStep" class="next-step">Next: gather the recipe ingredients.</p>
           <p id="syncStatus" class="progress-line" aria-live="polite">Live sync: starting...</p>
         </aside>
       </div>
 
       <nav class="nav" aria-label="Page sections">
         <a href="#ingredients">Ingredients</a>
-        <a href="#pantry">Pantry check</a>
+        <a href="#pantry">Pantry</a>
         <a href="#gear">Kitchenware</a>
         <a href="#prep">Prep</a>
         <a href="#timers">Timers</a>
@@ -522,12 +527,13 @@
       <section id="ingredients" aria-labelledby="ingredients-title">
         <div class="section-head">
           <div>
-            <h2 id="ingredients-title">Purchased Ingredients</h2>
+            <h2 id="ingredients-title">Main Recipe Ingredients</h2>
             <p class="section-note">
-              These are the receipt-confirmed items to use for the main dish.
+              These are the items this recipe is built around, scaled for 3 people at night.
+              Check them off as they are pulled, measured, opened, or ready for the stove.
             </p>
           </div>
-          <span class="pill">Receipt source</span>
+          <span class="pill">Recipe backbone</span>
         </div>
         <div id="ingredientList" class="grid"></div>
       </section>
@@ -535,18 +541,18 @@
       <section id="pantry" aria-labelledby="pantry-title">
         <div class="section-head">
           <div>
-            <h2 id="pantry-title">Pantry Check And Optional Upgrades</h2>
+            <h2 id="pantry-title">Pantry, Garnish, And Heat Control</h2>
             <p class="section-note">
-              These were not clearly on the receipt. Use them if already in the kitchen; the dish
-              still works without the optional upgrades.
+              These items tune the final dish: salt level, heat level, brightness, and serving
+              contrast.
             </p>
           </div>
-          <span class="pill">Check kitchen</span>
+          <span class="pill">Flavor control</span>
         </div>
         <div id="pantryList" class="grid"></div>
         <p class="callout">
-          Best receipt-only cheese finish: keep the heat low, stir in grated cheddar gradually,
-          and loosen with broth or a small splash of pasta water if the pot gets tight.
+          <strong>Best 3-person heat guide:</strong> use 1 chipotle plus 1 tsp adobo for
+          smoky balance at night. Add extra adobo at the end only if you want more heat.
         </p>
       </section>
 
@@ -555,10 +561,11 @@
           <div>
             <h2 id="gear-title">Utensils And Kitchenware</h2>
             <p class="section-note">
-              Set these out before cooking so the timed steps do not stall.
+              This version uses three active stations: pasta pot, chili pot, and queso saucepan.
+              Set everything out before browning the beef.
             </p>
           </div>
-          <span class="pill">Mise en place</span>
+          <span class="pill">Three-station setup</span>
         </div>
         <div id="gearList" class="grid"></div>
       </section>
@@ -568,11 +575,11 @@
           <div>
             <h2 id="prep-title">Prep Checklist</h2>
             <p class="section-note">
-              Finish this section before browning the beef. It makes the cooking sequence much
-              calmer.
+              The goal is to make the hot work smooth: chopped vegetables, measured spices,
+              cheese stabilized, cans opened, and pasta water ready.
             </p>
           </div>
-          <span class="pill">15 minutes</span>
+          <span class="pill">20 minutes</span>
         </div>
         <div id="prepList" class="step-list"></div>
       </section>
@@ -582,8 +589,8 @@
           <div>
             <h2 id="timers-title">Timer Bank</h2>
             <p class="section-note">
-              Timers can run independently. They keep their state on refresh, and completion is
-              announced on screen.
+              Timers can run independently. They persist through refresh and sync actions across
+              devices that have the page open.
             </p>
           </div>
           <span class="pill">Hands-free helpers</span>
@@ -596,10 +603,11 @@
           <div>
             <h2 id="cook-title">Cooking Guide</h2>
             <p class="section-note">
-              Follow the steps in order. Each step includes the matching timer when timing matters.
+              Follow this in order. The chili base should stay loose enough to coat pasta; the
+              queso should stay on gentle heat so it melts glossy, not greasy.
             </p>
           </div>
-          <span class="pill">About 35 minutes</span>
+          <span class="pill">About 40 minutes</span>
         </div>
         <div id="cookList" class="step-list"></div>
       </section>
@@ -609,7 +617,8 @@
           <div>
             <h2 id="serve-title">Finish, Serve, And Store</h2>
             <p class="section-note">
-              Resting keeps the sauce spoonable. Toppings add contrast.
+              Keep some queso for the top, finish with green onion greens and lime, then store
+              leftovers safely.
             </p>
           </div>
           <span class="pill">5 minute rest</span>
@@ -638,9 +647,9 @@
 
     <script>
       (function () {
-        const storageKey = "receipt-chili-mac-cook-state-v1";
-        const syncApp = "receipt-chili-mac-cook-mode-v1";
-        const syncTopic = "bbnso94-chili-mac-7ws8s8c45hx-live-sync-v1";
+        const storageKey = "smoky-chipotle-chihuahua-chili-mac-v1";
+        const syncApp = "smoky-chipotle-chihuahua-chili-mac-v1";
+        const syncTopic = "bbnso94-chihuahua-chili-mac-lime-7ws8s8c45hx-v1";
         const syncUrl = `https://ntfy.sh/${syncTopic}`;
         const clientId =
           (window.crypto && window.crypto.randomUUID && window.crypto.randomUUID()) ||
@@ -649,108 +658,116 @@
         const seenSyncIds = new Set();
 
         const purchasedIngredients = [
-          ["elbow-macaroni", "Elbow macaroni", "Use 8 oz, about half of a 16 oz portion or 1/4 of the 32 oz box."],
-          ["broth", "Swanson broth, 32 oz", "Use about 1 cup in the chili base; keep extra nearby to loosen."],
-          ["cheddar", "Great Value extra sharp cheddar block, 8 oz", "Grate it yourself. Use most in the pot and save a handful for topping."],
-          ["beef", "80/20 chuck ground beef", "Use the receipt package. Brown hard and drain excess fat."],
-          ["sour-cream", "Sour cream", "Use as a cool finish at the table."],
-          ["diced-tomatoes", "Great Value diced tomatoes", "Use the whole can with juices."],
-          ["kidney-beans", "Great Value kidney beans", "Drain and rinse before adding."],
-          ["tomato-sauce", "Great Value tomato sauce", "Use the whole can for body and moisture."],
-          ["tomato-paste", "Great Value tomato paste", "Use 2 Tbsp and cook until darker."],
-          ["chili-powder", "Chili powder", "Use 1 1/2 to 2 Tbsp depending on heat preference."],
-          ["cumin", "Ground cumin", "Use 1 1/2 tsp."],
-          ["oregano", "Oregano", "Use 1/2 to 1 tsp."],
-          ["paprika", "Paprika", "Use 1 tsp. Smoked is ideal if this is smoked paprika."],
-          ["minced-garlic", "Minced garlic", "Use about 1 Tbsp."],
-          ["worcestershire", "Worcestershire sauce", "Use 1 to 2 tsp while deglazing."],
-          ["onion", "Yellow onion", "Dice small."],
-          ["green-onions", "Green onions", "Slice for garnish."],
-          ["bell-pepper", "Bell pepper", "Dice small. Receipt version uses the purchased pepper, even if green."]
+          ["macaroni", "Elbow macaroni, 8 oz", "Cook just shy of done. Reserve at least 1/2 cup pasta water before draining."],
+          ["beef", "80 percent chuck ground beef, about 12 oz", "Best 3-person amount. Brown hard for flavor and drain excess fat."],
+          ["onion", "1 medium onion", "Dice small so it melts into the chili base."],
+          ["bell-pepper", "1/2 to 1 bell pepper", "Use 1/2 for balance, or the whole pepper if you want more vegetables."],
+          ["green-onions", "2 to 3 green onions", "Slice and separate white parts from green tops."],
+          ["garlic", "Minced garlic, 2 tsp", "Keep ready; it only needs a short cook."],
+          ["diced-tomatoes", "1/2 can diced tomatoes", "Use about half the can with juices. Save the rest."],
+          ["tomato-sauce", "1/2 can tomato sauce", "Use about 4 oz for body and moisture. Save the rest."],
+          ["tomato-paste", "Tomato paste, 1 Tbsp", "Cook until darker to remove raw tinny flavor."],
+          ["kidney-beans", "1/2 can kidney beans", "Drain and rinse. Use more if you want it heartier."],
+          ["broth", "Broth, 1/2 cup", "Use in chili base; keep extra nearby if it gets tight."],
+          ["worcestershire", "Worcestershire sauce, 1 tsp", "Adds savory depth before the tomato products."],
+          ["chihuahua", "Shredded Chihuahua cheese, 8 oz", "The queso finish. Toss with cornstarch before melting."],
+          ["cornstarch", "Cornstarch, 1 1/2 tsp", "Coats the cheese to help the queso stay smooth."],
+          ["evaporated-milk", "Evaporated milk, 5 to 6 oz", "Warm with butter before adding cheese. This is about half a can."],
+          ["butter", "Butter, 1 Tbsp", "Melt into the evaporated milk for richness."],
+          ["sour-cream", "Sour cream, 2 Tbsp plus more to serve", "Stir into queso off low heat and use extra on bowls."],
+          ["lime", "Lime, 1/2 plus wedges", "Juice into queso and serve extra wedges at the table."],
+          ["chipotle", "Chipotle peppers in adobo", "Use 1 pepper plus 1 tsp adobo for the best balanced 3-person night version."]
         ];
 
         const pantryItems = [
-          ["oil", "Neutral oil", "Use 1 Tbsp if the pan is dry before the beef renders."],
-          ["butter", "Unsalted butter", "Optional but useful: stir in 1 Tbsp before the cheese."],
-          ["evaporated-milk", "Evaporated milk", "Optional upgrade: 3/4 cup makes the cheese sauce smoother."],
-          ["dijon", "Dijon mustard", "Optional upgrade: 1 tsp adds tang like classic mac and cheese."],
-          ["cornstarch", "Cornstarch", "Optional upgrade: toss 2 tsp with grated cheese for a smoother melt."],
-          ["chipotle", "Chipotle in adobo", "Optional heat and smoke: use 1 tsp minced."],
-          ["salt", "Kosher salt", "Use for pasta water and seasoning the chili base."],
-          ["pepper", "Black pepper", "Use about 1/2 tsp, then adjust at the end."],
-          ["acid", "Apple cider vinegar or lime", "Optional but recommended: 1 tsp at the end wakes up the pot."],
-          ["extra-cheese", "Monterey Jack or other melting cheese", "Optional. If you have it, mix with cheddar for a smoother melt."]
+          ["peanut-oil", "Peanut oil, 2 tsp", "Use to start the beef browning."],
+          ["chili-powder", "Chili powder, 1 Tbsp", "Primary chili seasoning."],
+          ["cumin", "Ground cumin, 1 tsp", "Adds earthy chili depth."],
+          ["paprika", "Paprika, 1/2 tsp", "Use smoked paprika if that is what you have."],
+          ["oregano", "Dried oregano, 1/2 tsp", "Rub between fingers before adding if you want more aroma."],
+          ["black-pepper", "Black pepper, 1/2 tsp plus more to taste", "Use in beef and final seasoning."],
+          ["kosher-salt", "Coarse kosher salt", "Salt pasta water well and season the chili in layers."],
+          ["adobo-sauce", "Adobo sauce, 1 tsp", "Adds smoky-sweet heat without extra pepper pieces."],
+          ["extra-broth", "Extra hot broth or pasta water", "Use if the chili mac tightens while folding or sitting."],
+          ["extra-lime", "Extra lime wedges", "Best final correction if the dish tastes rich but flat."]
         ];
 
         const gearItems = [
-          ["dutch-oven", "5 to 6 quart Dutch oven or deep 12 inch skillet", "Main chili pot. Oven-safe only if using baked finish."],
-          ["pasta-pot", "Medium pasta pot", "For boiling macaroni separately."],
+          ["large-pot", "Medium-large pasta pot", "For 8 oz macaroni and enough water for even cooking."],
+          ["dutch-oven", "Dutch oven or large heavy pot", "Main chili pot; wide and heavy helps beef brown."],
+          ["saucepan", "Medium saucepan", "Dedicated queso pan for evaporated milk, butter, and cheese."],
           ["colander", "Colander", "For draining pasta and rinsing beans."],
-          ["knife", "Chef knife", "For onion, pepper, and green onions."],
-          ["cutting-board", "Cutting board", "Keep produce prep stable and organized."],
-          ["grater", "Box grater", "Fresh grated cheddar melts better."],
-          ["bowl", "Mixing bowl", "For grated cheese, and cornstarch if using."],
-          ["measuring", "Measuring spoons and cup", "For spices, Worcestershire, broth, and tomato paste."],
-          ["spoon", "Wooden spoon or heatproof spatula", "For browning, scraping fond, and stirring cheese."],
-          ["can-opener", "Can opener", "For tomatoes, sauce, beans, and paste if needed."],
-          ["serving", "Ladle or serving spoon", "For dishing up after the rest."],
-          ["oven-gear", "Oven mitts and trivet", "Only needed for optional oven or broiler finish."]
+          ["knife", "Chef knife", "For onion, bell pepper, green onions, lime, and chipotle."],
+          ["cutting-board", "Cutting board", "Set up vegetable prep and chipotle chopping."],
+          ["bowl", "Large bowl", "For tossing Chihuahua cheese with cornstarch."],
+          ["measuring", "Measuring spoons and cups", "For spices, broth, tomato paste, adobo, and sour cream."],
+          ["wooden-spoon", "Wooden spoon or heatproof spatula", "For browning, scraping fond, and folding pasta."],
+          ["whisk", "Whisk", "Best tool for smoothing evaporated milk and queso."],
+          ["can-opener", "Can opener", "For tomatoes, sauce, beans, tomato paste, evaporated milk, and chipotles."],
+          ["micro-safe", "Heatproof cup or mug", "Hold reserved pasta water or hot broth for loosening."],
+          ["thermometer", "Instant-read thermometer", "Optional but useful: ground beef should reach 160 F."],
+          ["storage", "Shallow storage containers", "For cooling leftovers promptly."]
         ];
 
         const prepSteps = [
-          ["prep-setup", "Set up the work area", "Put the main pot, pasta pot, colander, knife, board, grater, can opener, and measuring spoons within reach.", "prep"],
-          ["prep-cheese", "Grate the cheddar", "Save a small handful for topping. If using cornstarch, toss it with the grated cheese now.", null],
-          ["prep-veg", "Dice onion and bell pepper", "Cut them small enough to disappear into the sauce.", null],
-          ["prep-garlic", "Measure minced garlic and tomato paste", "Keep both close to the stove because they cook quickly.", null],
-          ["prep-beans", "Drain and rinse kidney beans", "Rinse until the liquid runs mostly clear.", null],
-          ["prep-cans", "Open tomatoes and tomato sauce", "Keep juices with the diced tomatoes.", null],
-          ["prep-spices", "Measure spices into one small bowl", "Chili powder, cumin, paprika, oregano, and chipotle if using.", null],
-          ["prep-garnish", "Slice green onions", "Hold them for serving with sour cream.", null],
-          ["prep-water", "Start pasta water", "Bring a medium pot of salted water to a boil while you brown the beef.", null]
+          ["prep-clear", "Clear and stage three work zones", "Set up pasta pot, chili pot, and queso saucepan. Put colander in the sink and measuring tools near the stove.", "prep"],
+          ["prep-cheese", "Stabilize the cheese", "Put 8 oz shredded Chihuahua cheese in a bowl. Toss evenly with 1 1/2 tsp cornstarch so every handful is lightly dusted.", null],
+          ["prep-vegetables", "Prep aromatics", "Dice onion and bell pepper. Slice green onions, keeping whites separate from green tops.", null],
+          ["prep-chipotle", "Prep chipotle carefully", "Finely chop 1 chipotle pepper for the best balanced 3-person version. Measure 1 tsp adobo sauce separately.", null],
+          ["prep-cans", "Open and stage cans", "Open diced tomatoes, tomato sauce, tomato paste, kidney beans, evaporated milk, and chipotles.", null],
+          ["prep-beans", "Drain and rinse beans", "Rinse kidney beans until the liquid is mostly clear, then let them drain.", null],
+          ["prep-spices", "Measure spice bowl", "Combine chili powder, cumin, paprika, oregano, and black pepper so they can bloom at once.", null],
+          ["prep-queso", "Stage queso ingredients", "Put evaporated milk, butter, sour cream, lime, and cornstarch-coated cheese near the saucepan.", null],
+          ["prep-pasta-water", "Start salted pasta water", "Bring a large pot of salted water to a boil. Pasta starts before or during chili simmer depending on your pace.", null]
         ];
 
         const timers = [
-          ["prep", "Prep sprint", 15 * 60, "Gather, grate, dice, rinse, open cans, and start water."],
-          ["beef-sear", "Initial beef sear", 2 * 60, "Leave the beef mostly alone so it browns instead of steaming."],
-          ["beef-brown", "Break up and brown beef", 4 * 60, "Cook until browned bits form; drain excess fat if needed."],
-          ["veg-soften", "Onion and pepper", 5 * 60, "Cook until softened and lightly colored."],
-          ["paste-garlic", "Garlic and tomato paste", 2 * 60, "Stir constantly until the paste turns darker brick red."],
-          ["spice-bloom", "Spice bloom", 60, "Stir spices in the fat until fragrant."],
-          ["simmer", "Chili simmer", 15 * 60, "Simmer uncovered, stirring a few times."],
-          ["pasta", "Pasta", 7 * 60, "Set to package al dente time minus 2 minutes."],
-          ["cheese-finish", "Cheese melt", 5 * 60, "Low heat only. Add cheese gradually and loosen as needed."],
-          ["oven", "Optional oven finish", 7 * 60, "450 F until bubbly and lightly browned."],
-          ["broiler", "Optional broiler finish", 4 * 60, "High broiler. Watch closely."],
-          ["rest", "Rest before serving", 5 * 60, "Let sauce settle before topping and serving."]
+          ["prep", "Prep sprint", 20 * 60, "Get vegetables, cans, beans, spice bowl, cheese, and pasta water ready."],
+          ["pasta", "Pasta: package time minus 2", 8 * 60, "Default 8 minutes. Adjust to your box; stop 2 minutes shy of full doneness."],
+          ["beef-sear", "Initial beef sear", 3 * 60, "Let beef sit enough to brown instead of steam."],
+          ["beef-brown", "Break up and brown beef", 6 * 60, "Cook until deeply browned, then drain excess fat."],
+          ["aromatics", "Onion, pepper, scallion whites", 5 * 60, "Cook until softened and just starting to color."],
+          ["garlic", "Garlic", 30, "Short cook only; do not burn it."],
+          ["spice-bloom", "Spice bloom", 45, "Bloom spices in the fat until fragrant."],
+          ["tomato-paste", "Tomato paste darkening", 90, "Cook until slightly darker and less raw-smelling."],
+          ["simmer", "Chili simmer", 12 * 60, "Simmer until thickened but still loose enough to coat pasta."],
+          ["queso-warm", "Warm milk and butter", 3 * 60, "Steam evaporated milk and melt butter; avoid hard boiling."],
+          ["queso-melt", "Melt Chihuahua cheese", 6 * 60, "Low heat. Add cheese by handfuls and whisk smooth."],
+          ["fold", "Fold pasta and queso", 4 * 60, "Combine chili, pasta, and most of the queso until glossy."],
+          ["rest", "Rest before serving", 5 * 60, "Let the sauce settle before topping bowls."],
+          ["cooling", "Leftover cooling checkpoint", 2 * 60 * 60, "Leftovers should be refrigerated within 2 hours."]
         ];
 
         const cookSteps = [
-          ["cook-heat", "Heat the main pot", "Set the Dutch oven or deep skillet over medium-high. Add oil only if the pan is dry.", null],
-          ["cook-sear", "Sear the beef", "Add beef in an even layer. Season lightly with salt and pepper. Let it sit for the first browning push.", "beef-sear"],
-          ["cook-brown", "Break up and finish browning", "Break the beef into small pieces and cook until browned, not gray. Spoon off fat beyond about 1 Tbsp.", "beef-brown"],
-          ["cook-veg", "Cook onion and bell pepper", "Reduce to medium. Stir occasionally until softened and starting to pick up color.", "veg-soften"],
-          ["cook-paste", "Cook garlic and tomato paste", "Add minced garlic and 2 Tbsp tomato paste. Stir constantly until darker and aromatic.", "paste-garlic"],
-          ["cook-spices", "Bloom spices", "Add chili powder, cumin, paprika, oregano, and optional chipotle. Stir in the fat until fragrant.", "spice-bloom"],
-          ["cook-deglaze", "Deglaze", "Add Worcestershire and about 1 cup broth. Scrape the browned bits from the bottom of the pot.", null],
-          ["cook-simmer", "Build and simmer the chili base", "Add diced tomatoes with juices, tomato sauce, kidney beans, and a pinch of salt. Simmer uncovered.", "simmer"],
-          ["cook-pasta", "Cook macaroni slightly underdone", "Boil separately. Stop 2 minutes before the package al dente time. Reserve 1/2 cup pasta water, then drain.", "pasta"],
-          ["cook-dairy", "Lower heat and add creamy base", "Turn chili to low. Add butter and evaporated milk if using; otherwise add a splash of broth or pasta water.", null],
-          ["cook-combine", "Add pasta and cheddar gradually", "Fold in pasta, then stir in grated cheddar in handfuls. Keep heat low so the sauce stays smooth.", "cheese-finish"],
-          ["cook-adjust", "Adjust texture and flavor", "Loosen with broth or pasta water if tight. Finish with vinegar or lime if available. Taste for salt and pepper.", null],
-          ["cook-oven", "Optional browned top", "Top with saved cheese and bake at 450 F or broil until bubbly. Skip if serving straight from the stovetop.", "oven"]
+          ["cook-pasta-start", "Cook macaroni just shy of done", "Boil 8 oz elbow macaroni in salted water until about 2 minutes short of full doneness. Reserve at least 1/2 cup pasta water, then drain.", "pasta"],
+          ["cook-heat", "Heat chili pot", "Set the Dutch oven or large heavy pot over medium-high heat. Add 2 tsp peanut oil.", null],
+          ["cook-sear", "Sear beef", "Add ground chuck in an even layer. Season lightly with salt and black pepper. Leave it mostly undisturbed for real browning.", "beef-sear"],
+          ["cook-brown", "Break up and brown beef deeply", "Break beef into small pieces and keep cooking until browned, not gray. Leave about 1 Tbsp fat in the pot and drain the rest.", "beef-brown"],
+          ["cook-aromatics", "Build aromatic base", "Add onion, bell pepper, and green onion whites. Cook until softened and beginning to color.", "aromatics"],
+          ["cook-garlic", "Add garlic", "Stir in 2 tsp minced garlic for a short aromatic cook.", "garlic"],
+          ["cook-spices", "Bloom spices in fat", "Add chili powder, cumin, paprika, oregano, and black pepper. Stir until fragrant.", "spice-bloom"],
+          ["cook-paste", "Cook tomato paste darker", "Add 1 Tbsp tomato paste. Stir until it darkens slightly and smells less raw.", "tomato-paste"],
+          ["cook-chili", "Turn it into chili", "Stir in chopped chipotle, adobo, Worcestershire, 1/2 can diced tomatoes, 1/2 can tomato sauce, 1/2 can kidney beans, and 1/2 cup broth. Add more broth only if too tight.", "simmer"],
+          ["cook-queso-warm", "Start queso base", "In the saucepan, warm 5 to 6 oz evaporated milk and 1 Tbsp butter over medium heat until steaming and just starting to simmer.", "queso-warm"],
+          ["cook-queso-melt", "Make Chihuahua queso", "Reduce heat to low. Add cornstarch-coated Chihuahua cheese by handfuls, whisking constantly until smooth. Stir in sour cream and lime juice.", "queso-melt"],
+          ["cook-heat-adjust", "Tune heat and tang", "For more chipotle presence, stir 1 extra tsp adobo into the queso. Add lime if it tastes heavy.", null],
+          ["cook-fold", "Bring it together", "Add drained macaroni to the chili pot. Fold in two-thirds to three-quarters of the queso. Loosen with pasta water until creamy and spoonable.", "fold"],
+          ["cook-final", "Final correction", "Taste. Adjust salt, black pepper, lime, chipotle heat, and looseness. The pot should be glossy, not stiff.", null]
         ];
 
         const serveSteps = [
-          ["serve-rest", "Rest the pot", "Let the chili mac stand off heat so the sauce settles and pasta finishes absorbing.", "rest"],
-          ["serve-top", "Garnish", "Top bowls with sour cream and sliced green onions. Add extra pepper or hot sauce if you like.", null],
-          ["serve-store", "Store leftovers safely", "Cool promptly, refrigerate in shallow containers, and use within 3 to 4 days.", null],
-          ["serve-reheat", "Reheat gently", "Add a splash of broth or milk and warm over medium-low or microwave in short bursts, stirring between bursts.", null]
+          ["serve-rest", "Rest the pot", "Take the pot off heat and rest 5 minutes so the sauce settles around the pasta.", "rest"],
+          ["serve-top", "Top bowls", "Spoon into bowls. Top with remaining queso, green onion greens, sour cream if desired, black pepper, and lime wedges.", null],
+          ["serve-style", "Choose final style", "Classic chili mac: use less queso in the pot and more on top. Ultra-creamy mac: fold in almost all the queso and loosen with pasta water.", null],
+          ["serve-temp", "Safety check", "Ground beef should reach 160 F. Reheated leftovers should reach 165 F.", null],
+          ["serve-store", "Cool leftovers promptly", "Portion into shallow containers and refrigerate within 2 hours. Eat refrigerated leftovers within 3 to 4 days.", "cooling"],
+          ["serve-reheat", "Reheat gently", "Add a splash of broth, pasta water, or milk. Warm gently over low heat or microwave in short bursts, stirring between bursts.", null]
         ];
 
         const defaultState = {
           checks: {},
           timers: {},
-          pastaMinutes: 7
+          pastaMinutes: 8
         };
 
         let state = loadState();
@@ -769,7 +786,7 @@
           return {
             checks: {},
             timers: {},
-            pastaMinutes: 7
+            pastaMinutes: 8
           };
         }
 
@@ -869,7 +886,7 @@
           }
 
           if (payload.type === "pasta") {
-            state.pastaMinutes = Math.max(1, Math.min(20, Number(payload.minutes || 7)));
+            state.pastaMinutes = Math.max(1, Math.min(20, Number(payload.minutes || 8)));
             state.timers.pasta = timerDefaults("pasta");
             handled = true;
           }
@@ -931,7 +948,7 @@
 
         function timerDefaults(timerId) {
           const timer = timers.find((item) => item[0] === timerId);
-          const duration = timerId === "pasta" ? Math.max(1, Number(state.pastaMinutes || 7)) * 60 : timer[2];
+          const duration = timerId === "pasta" ? Math.max(1, Number(state.pastaMinutes || 8)) * 60 : timer[2];
           return {
             duration,
             remaining: duration,
@@ -1016,7 +1033,7 @@
                 timerId === "pasta" && includePastaControl
                   ? `<label class="pasta-control">
                       Pasta minutes
-                      <input id="pastaMinutes" type="number" min="1" max="20" step="1" value="${state.pastaMinutes || 7}" />
+                      <input id="pastaMinutes" type="number" min="1" max="20" step="1" value="${state.pastaMinutes || 8}" />
                     </label>`
                   : ""
               }
@@ -1052,7 +1069,7 @@
             }
 
             if (event.target.id === "pastaMinutes") {
-              state.pastaMinutes = Math.max(1, Math.min(20, Number(event.target.value || 7)));
+              state.pastaMinutes = Math.max(1, Math.min(20, Number(event.target.value || 8)));
               state.timers.pasta = timerDefaults("pasta");
               saveState();
               publishSync({ type: "pasta", minutes: state.pastaMinutes });
@@ -1101,7 +1118,7 @@
           updateTimerCountdown(timerId);
 
           if (action === "start") {
-            const freshDuration = timerId === "pasta" ? Math.max(1, Number(state.pastaMinutes || 7)) * 60 : timer.duration;
+            const freshDuration = timerId === "pasta" ? Math.max(1, Number(state.pastaMinutes || 8)) * 60 : timer.duration;
             timer.duration = freshDuration;
             timer.remaining = timer.done || timer.remaining <= 0 ? freshDuration : timer.remaining;
             timer.running = true;
