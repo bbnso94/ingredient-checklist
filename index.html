@@ -3,153 +3,434 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Chili Mac Ingredients Checklist</title>
+    <title>Receipt-Based Chili Mac Cook Mode</title>
     <style>
       :root {
-        --bg: #f3efe9;
-        --panel: #ffffff;
-        --text: #171717;
-        --muted: #4a4a4a;
-        --accent: #0058a3;
-        --ok: #0f7a3f;
-        --line: #ddd4ca;
+        --paper: #fffaf0;
+        --surface: #fffdf8;
+        --surface-strong: #f6efe3;
+        --ink: #1b1d1f;
+        --muted: #596065;
+        --line: #d8cbbb;
+        --accent: #0b6b63;
+        --accent-dark: #074c47;
+        --heat: #b93820;
+        --gold: #c88913;
+        --done: #207044;
+        --shadow: 0 18px 48px rgba(46, 34, 18, 0.12);
       }
 
       * {
         box-sizing: border-box;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
         margin: 0;
-        padding: 2rem 1rem;
-        font-family: "Avenir Next", "Segoe UI", Tahoma, sans-serif;
-        background: linear-gradient(160deg, #fdf7ef 0%, #f2efe9 100%);
-        color: var(--text);
+        min-height: 100vh;
+        color: var(--ink);
+        font-family: "Segoe UI", "Avenir Next", Tahoma, sans-serif;
+        background:
+          linear-gradient(90deg, rgba(11, 107, 99, 0.08) 1px, transparent 1px),
+          linear-gradient(0deg, rgba(11, 107, 99, 0.06) 1px, transparent 1px),
+          linear-gradient(155deg, #fff7e8 0%, #f9efe0 45%, #fffdf8 100%);
+        background-size: 26px 26px, 26px 26px, auto;
       }
 
-      .app {
-        max-width: 860px;
-        margin: 0 auto;
-        background: var(--panel);
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-      }
-
-      header h1 {
-        margin: 0 0 0.35rem;
-        font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
-      }
-
-      header p {
-        margin: 0;
-        color: var(--muted);
-      }
-
-      .toolbar {
-        margin-top: 1rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
+      button,
+      input {
+        font: inherit;
       }
 
       button {
         border: 1px solid var(--line);
         border-radius: 8px;
         background: #fff;
-        color: var(--text);
-        padding: 0.55rem 0.9rem;
-        font-size: 0.95rem;
+        color: var(--ink);
+        min-height: 42px;
+        padding: 0.55rem 0.78rem;
         cursor: pointer;
-      }
-
-      button:focus-visible {
-        outline: 3px solid #000;
-        outline-offset: 2px;
       }
 
       button:hover {
         border-color: var(--accent);
       }
 
-      .status {
-        margin-top: 1rem;
-        font-weight: 600;
+      button:focus-visible,
+      input:focus-visible,
+      a:focus-visible {
+        outline: 3px solid var(--ink);
+        outline-offset: 3px;
       }
 
-      .status span {
-        color: var(--accent);
+      button.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
       }
 
-      .category {
-        margin-top: 1.3rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--line);
+      button.warn {
+        border-color: #e3b1a6;
+        color: var(--heat);
       }
 
-      .category h2 {
-        margin: 0 0 0.5rem;
-        font-size: 1.15rem;
+      .page {
+        width: min(1180px, 100%);
+        margin: 0 auto;
+        padding: 1rem;
       }
 
-      .category ul {
-        list-style: none;
-        padding: 0;
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+        gap: 1rem;
+        align-items: stretch;
+        margin: 0 0 1rem;
+      }
+
+      .title-panel,
+      .status-panel {
+        background: rgba(255, 253, 248, 0.94);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      .title-panel {
+        padding: 1.25rem;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.35rem;
+        color: var(--heat);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
         margin: 0;
+        font-size: 2rem;
+        line-height: 1.08;
       }
 
-      .item {
+      .lede {
+        max-width: 68ch;
+        margin: 0.75rem 0 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .recipe-facts {
         display: flex;
-        align-items: flex-start;
-        gap: 0.6rem;
-        padding: 0.45rem 0;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
       }
 
-      .item label {
-        display: block;
-        line-height: 1.4;
-        width: 100%;
+      .fact {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--surface-strong);
+        padding: 0.45rem 0.7rem;
+        font-size: 0.92rem;
+        font-weight: 700;
       }
 
-      .item input[type="checkbox"] {
-        margin-top: 0.35rem;
-        width: 1.05rem;
-        height: 1.05rem;
+      .status-panel {
+        position: sticky;
+        top: 0.75rem;
+        z-index: 10;
+        padding: 1rem;
+      }
+
+      .progress-title {
+        margin: 0 0 0.35rem;
+        font-weight: 800;
+      }
+
+      .progress-line {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .progress-track {
+        overflow: hidden;
+        height: 12px;
+        margin: 0.8rem 0;
+        border-radius: 999px;
+        background: #eadfce;
+      }
+
+      .progress-fill {
+        width: 0%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--accent), var(--gold));
+        transition: width 180ms ease;
+      }
+
+      .next-step {
+        margin: 0.7rem 0 0;
+        padding: 0.65rem;
+        border-left: 4px solid var(--accent);
+        background: #eef7f3;
+        color: #153a35;
+        line-height: 1.35;
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 1rem 0;
+      }
+
+      .nav a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 253, 248, 0.94);
+        color: var(--accent-dark);
+        padding: 0.45rem 0.75rem;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      section {
+        margin: 1rem 0;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 253, 248, 0.96);
+        box-shadow: 0 10px 26px rgba(46, 34, 18, 0.07);
+      }
+
+      .section-head {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 1.32rem;
+      }
+
+      .section-note {
+        max-width: 72ch;
+        margin: 0.3rem 0 0;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .pill {
         flex: 0 0 auto;
+        border-radius: 999px;
+        background: #f4e0d6;
+        color: var(--heat);
+        padding: 0.35rem 0.6rem;
+        font-weight: 800;
+        font-size: 0.85rem;
       }
 
-      .item.checked label {
-        color: #5f5f5f;
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.55rem;
       }
 
-      .item.checked label .name {
+      .check-card,
+      .step-card,
+      .timer-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .check-card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.7rem;
+        align-items: start;
+        padding: 0.72rem;
+      }
+
+      .check-card input[type="checkbox"] {
+        width: 1.35rem;
+        height: 1.35rem;
+        margin: 0.1rem 0 0;
+        accent-color: var(--accent);
+      }
+
+      .check-card.checked {
+        background: #f0f7f3;
+        border-color: #a7cfb6;
+      }
+
+      .check-card.checked .item-title {
+        color: #4d5b53;
         text-decoration: line-through;
       }
 
-      .name {
+      .item-title {
         display: block;
-        font-size: 1.03rem;
+        font-weight: 800;
+        line-height: 1.3;
       }
 
-      .meta {
+      .item-detail {
         display: block;
+        margin-top: 0.2rem;
         color: var(--muted);
+        line-height: 1.35;
+        font-size: 0.94rem;
+      }
+
+      .step-list {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .step-card {
+        padding: 0.85rem;
+      }
+
+      .step-main {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.75rem;
+      }
+
+      .step-card input[type="checkbox"] {
+        width: 1.45rem;
+        height: 1.45rem;
+        margin-top: 0.1rem;
+        accent-color: var(--accent);
+      }
+
+      .step-card.checked {
+        background: #f0f7f3;
+        border-color: #a7cfb6;
+      }
+
+      .step-kicker {
+        display: inline-flex;
+        margin-bottom: 0.25rem;
+        border-radius: 999px;
+        background: var(--surface-strong);
+        color: var(--accent-dark);
+        padding: 0.25rem 0.5rem;
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .step-title {
+        display: block;
+        font-size: 1.02rem;
+        font-weight: 850;
+        line-height: 1.3;
+      }
+
+      .step-detail {
+        margin: 0.25rem 0 0;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .timer-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.6rem;
+        margin-top: 0.8rem;
+      }
+
+      .timer-card {
+        padding: 0.75rem;
+        background: #fffdf8;
+      }
+
+      .timer-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.75rem;
+        align-items: start;
+      }
+
+      .timer-name {
+        margin: 0;
+        font-weight: 850;
+      }
+
+      .timer-time {
+        font-variant-numeric: tabular-nums;
+        font-size: 1.65rem;
+        font-weight: 900;
+        color: var(--accent-dark);
+        white-space: nowrap;
+      }
+
+      .timer-card.running {
+        border-color: var(--accent);
+        box-shadow: inset 0 0 0 2px rgba(11, 107, 99, 0.1);
+      }
+
+      .timer-card.done {
+        border-color: var(--done);
+        background: #eff8f2;
+      }
+
+      .timer-note {
+        margin: 0.35rem 0 0;
+        color: var(--muted);
+        line-height: 1.35;
         font-size: 0.92rem;
       }
 
-      .muted-note {
-        margin-top: 0.4rem;
-        color: var(--muted);
+      .timer-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        margin-top: 0.7rem;
       }
 
-      .help {
-        margin-top: 1.2rem;
-        border: 1px dashed var(--line);
-        padding: 0.8rem;
+      .pasta-control {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.45rem;
+        margin-top: 0.65rem;
+      }
+
+      .pasta-control input {
+        width: 5.25rem;
+        min-height: 42px;
+        border: 1px solid var(--line);
         border-radius: 8px;
-        color: var(--muted);
-        background: #f9f6f1;
+        padding: 0.45rem;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 1rem;
+      }
+
+      .callout {
+        margin: 0.85rem 0 0;
+        padding: 0.75rem;
+        border-left: 4px solid var(--gold);
+        background: #fff5da;
+        line-height: 1.45;
       }
 
       .sr-only {
@@ -160,250 +441,658 @@
         clip: rect(0, 0, 0, 0);
       }
 
-      @media (max-width: 600px) {
-        body {
-          padding: 1rem 0.8rem;
+      @media (max-width: 760px) {
+        .page {
+          padding: 0.7rem;
         }
 
-        .app {
-          padding: 1rem;
-          border-radius: 10px;
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .status-panel {
+          top: 0.35rem;
+        }
+
+        h1 {
+          font-size: 1.55rem;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .section-head {
+          display: block;
+        }
+
+        .pill {
+          display: inline-flex;
+          margin-top: 0.55rem;
+        }
+
+        button {
+          flex: 1 1 auto;
         }
       }
     </style>
   </head>
   <body>
-    <main class="app">
-      <header>
-        <h1>Chili Mac Grocery Checklist</h1>
-        <p>3 generous servings — items persist across visits in this browser.</p>
-      </header>
+    <main class="page">
+      <div class="hero">
+        <header class="title-panel">
+          <p class="eyebrow">Receipt-based cook mode</p>
+          <h1>Homemade Chili Mac Dinner for Three</h1>
+          <p class="lede">
+            A hands-on cooking companion built from the Walmart receipt: beef chili mac with
+            cheddar, tomatoes, beans, spices, sour cream, and green onions. Check items off as
+            you cook and run the timers directly from this page.
+          </p>
+          <div class="recipe-facts" aria-label="Recipe facts">
+            <span class="fact">3 generous servings</span>
+            <span class="fact">About 55 minutes</span>
+            <span class="fact">Receipt-adapted</span>
+            <span class="fact">Saves on this device</span>
+          </div>
+        </header>
 
-      <div class="toolbar" aria-label="Checklist controls">
-        <button id="markAll">Check all items</button>
-        <button id="clearAll">Clear all checks</button>
+        <aside class="status-panel" aria-label="Cooking status">
+          <p class="progress-title">Kitchen progress</p>
+          <p id="progressLine" class="progress-line" role="status" aria-live="polite">
+            Loading progress...
+          </p>
+          <div class="progress-track" aria-hidden="true">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+          <p id="nextStep" class="next-step">Next: gather the receipt ingredients.</p>
+        </aside>
       </div>
 
-      <p id="progress" class="status" role="status" aria-live="polite">
-        <span>0</span> / 20 items checked
-      </p>
+      <nav class="nav" aria-label="Page sections">
+        <a href="#ingredients">Ingredients</a>
+        <a href="#pantry">Pantry check</a>
+        <a href="#gear">Kitchenware</a>
+        <a href="#prep">Prep</a>
+        <a href="#timers">Timers</a>
+        <a href="#cook">Cook</a>
+        <a href="#serve">Serve</a>
+      </nav>
 
-      <section class="category" aria-labelledby="cat-meat">
-        <h2 id="cat-meat">Meat, dairy, and produce</h2>
-        <ul>
-          <li class="item">
-            <input id="i-ground-beef" class="item-check" type="checkbox" data-key="ground-beef" />
-            <label for="i-ground-beef">
-              <span class="name">80/20 Ground Beef Chuck, 1-pound tray</span>
-              <span class="meta">Buy one; use the entire package</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-cheddar" class="item-check" type="checkbox" data-key="cheddar" />
-            <label for="i-cheddar">
-              <span class="name">Great Value Sharp Cheddar Block, 8 ounces</span>
-              <span class="meta">Use ~6 oz in chili mac + ~2 oz for topping</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-onion" class="item-check" type="checkbox" data-key="yellow-onion" />
-            <label for="i-onion">
-              <span class="name">Fresh Whole Yellow Onion</span>
-              <span class="meta">Buy one; use all</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-bell-pepper" class="item-check" type="checkbox" data-key="green-bell-pepper" />
-            <label for="i-bell-pepper">
-              <span class="name">Fresh Green Bell Pepper</span>
-              <span class="meta">Buy one; use all</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-garlic" class="item-check" type="checkbox" data-key="minced-garlic" />
-            <label for="i-garlic">
-              <span class="name">Great Value Minced Garlic in Water, 8-ounce jar</span>
-              <span class="meta">Use ~1½ tablespoons</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-sour-cream" class="item-check" type="checkbox" data-key="sour-cream" />
-            <label for="i-sour-cream">
-              <span class="name">Great Value Original Sour Cream, 16 ounces</span>
-              <span class="meta">Use for topping or stir into bowls</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-green-onions" class="item-check" type="checkbox" data-key="green-onions" />
-            <label for="i-green-onions">
-              <span class="name">Fresh Green Onions, one bunch</span>
-              <span class="meta">Use 2–3 for topping</span>
-            </label>
-          </li>
-        </ul>
+      <section id="ingredients" aria-labelledby="ingredients-title">
+        <div class="section-head">
+          <div>
+            <h2 id="ingredients-title">Purchased Ingredients</h2>
+            <p class="section-note">
+              These are the receipt-confirmed items to use for the main dish.
+            </p>
+          </div>
+          <span class="pill">Receipt source</span>
+        </div>
+        <div id="ingredientList" class="grid"></div>
       </section>
 
-      <section class="category" aria-labelledby="cat-pantry">
-        <h2 id="cat-pantry">Pasta, canned goods, and sauces</h2>
-        <ul>
-          <li class="item">
-            <input id="i-macaroni" class="item-check" type="checkbox" data-key="elbow-macaroni" />
-            <label for="i-macaroni">
-              <span class="name">Great Value Elbow Macaroni, 16 ounces</span>
-              <span class="meta">Use ~8 ounces (half the box)</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-diced-tomatoes" class="item-check" type="checkbox" data-key="petite-diced-tomatoes" />
-            <label for="i-diced-tomatoes">
-              <span class="name">Great Value Petite Diced Tomatoes, 14.5 ounces</span>
-              <span class="meta">Use the entire can, including juice</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-tomato-sauce" class="item-check" type="checkbox" data-key="tomato-sauce" />
-            <label for="i-tomato-sauce">
-              <span class="name">Great Value Tomato Sauce, 8 ounces</span>
-              <span class="meta">Use the entire can</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-tomato-paste" class="item-check" type="checkbox" data-key="tomato-paste" />
-            <label for="i-tomato-paste">
-              <span class="name">Great Value Tomato Paste, 6 ounces</span>
-              <span class="meta">Use ~2 tablespoons</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-beans" class="item-check" type="checkbox" data-key="kidney-beans" />
-            <label for="i-beans">
-              <span class="name">Great Value Dark-Red Kidney Beans, 15.5 ounces</span>
-              <span class="meta">Drain and rinse</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-broth" class="item-check" type="checkbox" data-key="beef-broth" />
-            <label for="i-broth">
-              <span class="name">Swanson Lower-Sodium Beef Broth, 32 ounces</span>
-              <span class="meta">Use ~2 cups, keep a little extra just in case</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-worceser" class="item-check" type="checkbox" data-key="worcestershire" />
-            <label for="i-worceser">
-              <span class="name">Lea &amp; Perrins Worcestershire Sauce, 10 fl oz</span>
-              <span class="meta">Use ~2 teaspoons</span>
-            </label>
-          </li>
-        </ul>
-      </section>
-
-      <section class="category" aria-labelledby="cat-seasoning">
-        <h2 id="cat-seasoning">Seasonings</h2>
-        <ul>
-          <li class="item">
-            <input id="i-chili" class="item-check" type="checkbox" data-key="chili-powder" />
-            <label for="i-chili">
-              <span class="name">Great Value Chili Powder, 3 ounces</span>
-              <span class="meta">Use ~2 tablespoons</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-cumin" class="item-check" type="checkbox" data-key="ground-cumin" />
-            <label for="i-cumin">
-              <span class="name">Great Value Ground Cumin, 2.5 ounces</span>
-              <span class="meta">Use ~1½ teaspoons</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-paprika" class="item-check" type="checkbox" data-key="smoked-paprika" />
-            <label for="i-paprika">
-              <span class="name">Great Value Smoked Paprika, 2 ounces</span>
-              <span class="meta">Use ~1 teaspoon</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-oregano" class="item-check" type="checkbox" data-key="oregano" />
-            <label for="i-oregano">
-              <span class="name">Great Value Oregano Leaves, 0.87 ounce</span>
-              <span class="meta">Use ~½ teaspoon</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-salt" class="item-check" type="checkbox" data-key="kosher-salt" />
-            <label for="i-salt">
-              <span class="name">Morton Coarse Kosher Salt, 16 ounces</span>
-              <span class="meta">Start with ~¾ teaspoon; adjust after adding cheese</span>
-            </label>
-          </li>
-          <li class="item">
-            <input id="i-pepper" class="item-check" type="checkbox" data-key="black-pepper" />
-            <label for="i-pepper">
-              <span class="name">Great Value Ground Black Pepper, 3 ounces</span>
-              <span class="meta">Use ~½ teaspoon</span>
-            </label>
-          </li>
-        </ul>
-      </section>
-
-      <section class="help" aria-label="Optional shopping note">
-        <h2 class="sr-only">Optional note</h2>
-        <p class="muted-note">
-          Optional: if you already have a seasoning on hand, uncheck or never check it. The list
-          remembers each item in your browser.
+      <section id="pantry" aria-labelledby="pantry-title">
+        <div class="section-head">
+          <div>
+            <h2 id="pantry-title">Pantry Check And Optional Upgrades</h2>
+            <p class="section-note">
+              These were not clearly on the receipt. Use them if already in the kitchen; the dish
+              still works without the optional upgrades.
+            </p>
+          </div>
+          <span class="pill">Check kitchen</span>
+        </div>
+        <div id="pantryList" class="grid"></div>
+        <p class="callout">
+          Best receipt-only cheese finish: keep the heat low, stir in grated cheddar gradually,
+          and loosen with broth or a small splash of pasta water if the pot gets tight.
         </p>
       </section>
+
+      <section id="gear" aria-labelledby="gear-title">
+        <div class="section-head">
+          <div>
+            <h2 id="gear-title">Utensils And Kitchenware</h2>
+            <p class="section-note">
+              Set these out before cooking so the timed steps do not stall.
+            </p>
+          </div>
+          <span class="pill">Mise en place</span>
+        </div>
+        <div id="gearList" class="grid"></div>
+      </section>
+
+      <section id="prep" aria-labelledby="prep-title">
+        <div class="section-head">
+          <div>
+            <h2 id="prep-title">Prep Checklist</h2>
+            <p class="section-note">
+              Finish this section before browning the beef. It makes the cooking sequence much
+              calmer.
+            </p>
+          </div>
+          <span class="pill">15 minutes</span>
+        </div>
+        <div id="prepList" class="step-list"></div>
+      </section>
+
+      <section id="timers" aria-labelledby="timers-title">
+        <div class="section-head">
+          <div>
+            <h2 id="timers-title">Timer Bank</h2>
+            <p class="section-note">
+              Timers can run independently. They keep their state on refresh, and completion is
+              announced on screen.
+            </p>
+          </div>
+          <span class="pill">Hands-free helpers</span>
+        </div>
+        <div id="timerBank" class="timer-row"></div>
+      </section>
+
+      <section id="cook" aria-labelledby="cook-title">
+        <div class="section-head">
+          <div>
+            <h2 id="cook-title">Cooking Guide</h2>
+            <p class="section-note">
+              Follow the steps in order. Each step includes the matching timer when timing matters.
+            </p>
+          </div>
+          <span class="pill">About 35 minutes</span>
+        </div>
+        <div id="cookList" class="step-list"></div>
+      </section>
+
+      <section id="serve" aria-labelledby="serve-title">
+        <div class="section-head">
+          <div>
+            <h2 id="serve-title">Finish, Serve, And Store</h2>
+            <p class="section-note">
+              Resting keeps the sauce spoonable. Toppings add contrast.
+            </p>
+          </div>
+          <span class="pill">5 minute rest</span>
+        </div>
+        <div id="serveList" class="step-list"></div>
+      </section>
+
+      <section aria-labelledby="reset-title">
+        <div class="section-head">
+          <div>
+            <h2 id="reset-title">Session Controls</h2>
+            <p class="section-note">
+              Use these when starting over or when a timer needs a clean slate.
+            </p>
+          </div>
+        </div>
+        <div class="controls">
+          <button id="resetAll" class="warn">Reset all cooking progress</button>
+          <button id="resetChecks">Reset only checklists</button>
+          <button id="resetTimers">Reset only timers</button>
+        </div>
+      </section>
+
+      <p id="timerAnnouncement" class="sr-only" role="status" aria-live="assertive"></p>
     </main>
 
     <script>
       (function () {
-        const storageKey = "ingredient-checklist-state-v1";
-        const checks = document.querySelectorAll(".item-check");
-        const progress = document.getElementById("progress");
+        const storageKey = "receipt-chili-mac-cook-state-v1";
 
-        const total = checks.length;
-        const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+        const purchasedIngredients = [
+          ["elbow-macaroni", "Elbow macaroni", "Use 8 oz, about half of a 16 oz portion or 1/4 of the 32 oz box."],
+          ["broth", "Swanson broth, 32 oz", "Use about 1 cup in the chili base; keep extra nearby to loosen."],
+          ["cheddar", "Great Value extra sharp cheddar block, 8 oz", "Grate it yourself. Use most in the pot and save a handful for topping."],
+          ["beef", "80/20 chuck ground beef", "Use the receipt package. Brown hard and drain excess fat."],
+          ["sour-cream", "Sour cream", "Use as a cool finish at the table."],
+          ["diced-tomatoes", "Great Value diced tomatoes", "Use the whole can with juices."],
+          ["kidney-beans", "Great Value kidney beans", "Drain and rinse before adding."],
+          ["tomato-sauce", "Great Value tomato sauce", "Use the whole can for body and moisture."],
+          ["tomato-paste", "Great Value tomato paste", "Use 2 Tbsp and cook until darker."],
+          ["chili-powder", "Chili powder", "Use 1 1/2 to 2 Tbsp depending on heat preference."],
+          ["cumin", "Ground cumin", "Use 1 1/2 tsp."],
+          ["oregano", "Oregano", "Use 1/2 to 1 tsp."],
+          ["paprika", "Paprika", "Use 1 tsp. Smoked is ideal if this is smoked paprika."],
+          ["minced-garlic", "Minced garlic", "Use about 1 Tbsp."],
+          ["worcestershire", "Worcestershire sauce", "Use 1 to 2 tsp while deglazing."],
+          ["onion", "Yellow onion", "Dice small."],
+          ["green-onions", "Green onions", "Slice for garnish."],
+          ["bell-pepper", "Bell pepper", "Dice small. Receipt version uses the purchased pepper, even if green."]
+        ];
 
-        function updateVisuals() {
-          checks.forEach((cb) => {
-            const li = cb.closest(".item");
-            li.classList.toggle("checked", cb.checked);
-          });
+        const pantryItems = [
+          ["oil", "Neutral oil", "Use 1 Tbsp if the pan is dry before the beef renders."],
+          ["butter", "Unsalted butter", "Optional but useful: stir in 1 Tbsp before the cheese."],
+          ["evaporated-milk", "Evaporated milk", "Optional upgrade: 3/4 cup makes the cheese sauce smoother."],
+          ["dijon", "Dijon mustard", "Optional upgrade: 1 tsp adds tang like classic mac and cheese."],
+          ["cornstarch", "Cornstarch", "Optional upgrade: toss 2 tsp with grated cheese for a smoother melt."],
+          ["chipotle", "Chipotle in adobo", "Optional heat and smoke: use 1 tsp minced."],
+          ["salt", "Kosher salt", "Use for pasta water and seasoning the chili base."],
+          ["pepper", "Black pepper", "Use about 1/2 tsp, then adjust at the end."],
+          ["acid", "Apple cider vinegar or lime", "Optional but recommended: 1 tsp at the end wakes up the pot."],
+          ["extra-cheese", "Monterey Jack or other melting cheese", "Optional. If you have it, mix with cheddar for a smoother melt."]
+        ];
 
-          const checkedCount = Array.from(checks).filter((cb) => cb.checked).length;
-          progress.innerHTML = `<span>${checkedCount}</span> / ${total} items checked`;
+        const gearItems = [
+          ["dutch-oven", "5 to 6 quart Dutch oven or deep 12 inch skillet", "Main chili pot. Oven-safe only if using baked finish."],
+          ["pasta-pot", "Medium pasta pot", "For boiling macaroni separately."],
+          ["colander", "Colander", "For draining pasta and rinsing beans."],
+          ["knife", "Chef knife", "For onion, pepper, and green onions."],
+          ["cutting-board", "Cutting board", "Keep produce prep stable and organized."],
+          ["grater", "Box grater", "Fresh grated cheddar melts better."],
+          ["bowl", "Mixing bowl", "For grated cheese, and cornstarch if using."],
+          ["measuring", "Measuring spoons and cup", "For spices, Worcestershire, broth, and tomato paste."],
+          ["spoon", "Wooden spoon or heatproof spatula", "For browning, scraping fond, and stirring cheese."],
+          ["can-opener", "Can opener", "For tomatoes, sauce, beans, and paste if needed."],
+          ["serving", "Ladle or serving spoon", "For dishing up after the rest."],
+          ["oven-gear", "Oven mitts and trivet", "Only needed for optional oven or broiler finish."]
+        ];
+
+        const prepSteps = [
+          ["prep-setup", "Set up the work area", "Put the main pot, pasta pot, colander, knife, board, grater, can opener, and measuring spoons within reach.", "prep"],
+          ["prep-cheese", "Grate the cheddar", "Save a small handful for topping. If using cornstarch, toss it with the grated cheese now.", null],
+          ["prep-veg", "Dice onion and bell pepper", "Cut them small enough to disappear into the sauce.", null],
+          ["prep-garlic", "Measure minced garlic and tomato paste", "Keep both close to the stove because they cook quickly.", null],
+          ["prep-beans", "Drain and rinse kidney beans", "Rinse until the liquid runs mostly clear.", null],
+          ["prep-cans", "Open tomatoes and tomato sauce", "Keep juices with the diced tomatoes.", null],
+          ["prep-spices", "Measure spices into one small bowl", "Chili powder, cumin, paprika, oregano, and chipotle if using.", null],
+          ["prep-garnish", "Slice green onions", "Hold them for serving with sour cream.", null],
+          ["prep-water", "Start pasta water", "Bring a medium pot of salted water to a boil while you brown the beef.", null]
+        ];
+
+        const timers = [
+          ["prep", "Prep sprint", 15 * 60, "Gather, grate, dice, rinse, open cans, and start water."],
+          ["beef-sear", "Initial beef sear", 2 * 60, "Leave the beef mostly alone so it browns instead of steaming."],
+          ["beef-brown", "Break up and brown beef", 4 * 60, "Cook until browned bits form; drain excess fat if needed."],
+          ["veg-soften", "Onion and pepper", 5 * 60, "Cook until softened and lightly colored."],
+          ["paste-garlic", "Garlic and tomato paste", 2 * 60, "Stir constantly until the paste turns darker brick red."],
+          ["spice-bloom", "Spice bloom", 60, "Stir spices in the fat until fragrant."],
+          ["simmer", "Chili simmer", 15 * 60, "Simmer uncovered, stirring a few times."],
+          ["pasta", "Pasta", 7 * 60, "Set to package al dente time minus 2 minutes."],
+          ["cheese-finish", "Cheese melt", 5 * 60, "Low heat only. Add cheese gradually and loosen as needed."],
+          ["oven", "Optional oven finish", 7 * 60, "450 F until bubbly and lightly browned."],
+          ["broiler", "Optional broiler finish", 4 * 60, "High broiler. Watch closely."],
+          ["rest", "Rest before serving", 5 * 60, "Let sauce settle before topping and serving."]
+        ];
+
+        const cookSteps = [
+          ["cook-heat", "Heat the main pot", "Set the Dutch oven or deep skillet over medium-high. Add oil only if the pan is dry.", null],
+          ["cook-sear", "Sear the beef", "Add beef in an even layer. Season lightly with salt and pepper. Let it sit for the first browning push.", "beef-sear"],
+          ["cook-brown", "Break up and finish browning", "Break the beef into small pieces and cook until browned, not gray. Spoon off fat beyond about 1 Tbsp.", "beef-brown"],
+          ["cook-veg", "Cook onion and bell pepper", "Reduce to medium. Stir occasionally until softened and starting to pick up color.", "veg-soften"],
+          ["cook-paste", "Cook garlic and tomato paste", "Add minced garlic and 2 Tbsp tomato paste. Stir constantly until darker and aromatic.", "paste-garlic"],
+          ["cook-spices", "Bloom spices", "Add chili powder, cumin, paprika, oregano, and optional chipotle. Stir in the fat until fragrant.", "spice-bloom"],
+          ["cook-deglaze", "Deglaze", "Add Worcestershire and about 1 cup broth. Scrape the browned bits from the bottom of the pot.", null],
+          ["cook-simmer", "Build and simmer the chili base", "Add diced tomatoes with juices, tomato sauce, kidney beans, and a pinch of salt. Simmer uncovered.", "simmer"],
+          ["cook-pasta", "Cook macaroni slightly underdone", "Boil separately. Stop 2 minutes before the package al dente time. Reserve 1/2 cup pasta water, then drain.", "pasta"],
+          ["cook-dairy", "Lower heat and add creamy base", "Turn chili to low. Add butter and evaporated milk if using; otherwise add a splash of broth or pasta water.", null],
+          ["cook-combine", "Add pasta and cheddar gradually", "Fold in pasta, then stir in grated cheddar in handfuls. Keep heat low so the sauce stays smooth.", "cheese-finish"],
+          ["cook-adjust", "Adjust texture and flavor", "Loosen with broth or pasta water if tight. Finish with vinegar or lime if available. Taste for salt and pepper.", null],
+          ["cook-oven", "Optional browned top", "Top with saved cheese and bake at 450 F or broil until bubbly. Skip if serving straight from the stovetop.", "oven"]
+        ];
+
+        const serveSteps = [
+          ["serve-rest", "Rest the pot", "Let the chili mac stand off heat so the sauce settles and pasta finishes absorbing.", "rest"],
+          ["serve-top", "Garnish", "Top bowls with sour cream and sliced green onions. Add extra pepper or hot sauce if you like.", null],
+          ["serve-store", "Store leftovers safely", "Cool promptly, refrigerate in shallow containers, and use within 3 to 4 days.", null],
+          ["serve-reheat", "Reheat gently", "Add a splash of broth or milk and warm over medium-low or microwave in short bursts, stirring between bursts.", null]
+        ];
+
+        const defaultState = {
+          checks: {},
+          timers: {},
+          pastaMinutes: 7
+        };
+
+        let state = loadState();
+        let tickHandle = null;
+
+        const allCheckDefinitions = [
+          ...purchasedIngredients,
+          ...pantryItems,
+          ...gearItems,
+          ...prepSteps,
+          ...cookSteps,
+          ...serveSteps
+        ];
+
+        function freshDefaultState() {
+          return {
+            checks: {},
+            timers: {},
+            pastaMinutes: 7
+          };
         }
 
-        checks.forEach((cb) => {
-          const key = cb.getAttribute("data-key");
-          cb.checked = Boolean(saved[key]);
+        function loadState() {
+          try {
+            const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+            const fresh = freshDefaultState();
+            return {
+              checks: Object.assign({}, fresh.checks, saved.checks || {}),
+              timers: Object.assign({}, fresh.timers, saved.timers || {}),
+              pastaMinutes: saved.pastaMinutes || fresh.pastaMinutes
+            };
+          } catch (error) {
+            return freshDefaultState();
+          }
+        }
 
-          cb.addEventListener("change", () => {
-            saved[key] = cb.checked;
-            localStorage.setItem(storageKey, JSON.stringify(saved));
-            updateVisuals();
+        function saveState() {
+          localStorage.setItem(storageKey, JSON.stringify(state));
+        }
+
+        function timerDefaults(timerId) {
+          const timer = timers.find((item) => item[0] === timerId);
+          const duration = timerId === "pasta" ? Math.max(1, Number(state.pastaMinutes || 7)) * 60 : timer[2];
+          return {
+            duration,
+            remaining: duration,
+            running: false,
+            done: false,
+            endAt: null
+          };
+        }
+
+        function getTimer(timerId) {
+          if (!state.timers[timerId]) {
+            state.timers[timerId] = timerDefaults(timerId);
+          }
+
+          const timer = state.timers[timerId];
+          if (!Number.isFinite(timer.duration) || timer.duration < 1) {
+            state.timers[timerId] = timerDefaults(timerId);
+          }
+
+          return state.timers[timerId];
+        }
+
+        function renderCheckList(targetId, items) {
+          const target = document.getElementById(targetId);
+          target.innerHTML = items
+            .map(([id, title, detail]) => {
+              const checked = Boolean(state.checks[id]);
+              return `
+                <label class="check-card ${checked ? "checked" : ""}" for="${id}">
+                  <input id="${id}" type="checkbox" data-check-id="${id}" ${checked ? "checked" : ""} />
+                  <span>
+                    <span class="item-title">${title}</span>
+                    <span class="item-detail">${detail}</span>
+                  </span>
+                </label>
+              `;
+            })
+            .join("");
+        }
+
+        function renderStepList(targetId, steps) {
+          const target = document.getElementById(targetId);
+          target.innerHTML = steps
+            .map(([id, title, detail, timerId], index) => {
+              const checked = Boolean(state.checks[id]);
+              return `
+                <article class="step-card ${checked ? "checked" : ""}">
+                  <div class="step-main">
+                    <input id="${id}" type="checkbox" data-check-id="${id}" ${checked ? "checked" : ""} />
+                    <label for="${id}">
+                      <span class="step-kicker">Step ${index + 1}</span>
+                      <span class="step-title">${title}</span>
+                      <p class="step-detail">${detail}</p>
+                    </label>
+                  </div>
+                  ${timerId ? `<div class="timer-row">${timerMarkup(timerId)}</div>` : ""}
+                </article>
+              `;
+            })
+            .join("");
+        }
+
+        function renderTimerBank() {
+          const target = document.getElementById("timerBank");
+          target.innerHTML = timers.map(([timerId]) => timerMarkup(timerId, true)).join("");
+        }
+
+        function timerMarkup(timerId, includePastaControl) {
+          const timerData = timers.find((item) => item[0] === timerId);
+          const timer = getTimer(timerId);
+          const statusClass = timer.done ? "done" : timer.running ? "running" : "";
+          return `
+            <article class="timer-card ${statusClass}" data-timer-card="${timerId}">
+              <div class="timer-top">
+                <div>
+                  <p class="timer-name">${timerData[1]}</p>
+                  <p class="timer-note">${timerData[3]}</p>
+                </div>
+                <span class="timer-time" data-timer-time="${timerId}">${formatTime(timer.remaining)}</span>
+              </div>
+              ${
+                timerId === "pasta" && includePastaControl
+                  ? `<label class="pasta-control">
+                      Pasta minutes
+                      <input id="pastaMinutes" type="number" min="1" max="20" step="1" value="${state.pastaMinutes || 7}" />
+                    </label>`
+                  : ""
+              }
+              <div class="timer-actions">
+                <button class="primary" type="button" data-timer-action="start" data-timer-id="${timerId}">
+                  ${timer.running ? "Running" : timer.done ? "Restart" : "Start"}
+                </button>
+                <button type="button" data-timer-action="pause" data-timer-id="${timerId}">
+                  ${timer.running ? "Pause" : "Resume"}
+                </button>
+                <button type="button" data-timer-action="reset" data-timer-id="${timerId}">Reset</button>
+              </div>
+            </article>
+          `;
+        }
+
+        function formatTime(totalSeconds) {
+          const seconds = Math.max(0, Math.ceil(totalSeconds || 0));
+          const mins = Math.floor(seconds / 60);
+          const secs = seconds % 60;
+          return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+        }
+
+        function bindEvents() {
+          document.addEventListener("change", (event) => {
+            const checkId = event.target.getAttribute("data-check-id");
+            if (checkId) {
+              state.checks[checkId] = event.target.checked;
+              saveState();
+              renderAll();
+              return;
+            }
+
+            if (event.target.id === "pastaMinutes") {
+              state.pastaMinutes = Math.max(1, Math.min(20, Number(event.target.value || 7)));
+              state.timers.pasta = timerDefaults("pasta");
+              saveState();
+              renderAll();
+            }
           });
-        });
 
-        document.getElementById("clearAll").addEventListener("click", () => {
-          checks.forEach((cb) => {
-            cb.checked = false;
+          document.addEventListener("click", (event) => {
+            const action = event.target.getAttribute("data-timer-action");
+            const timerId = event.target.getAttribute("data-timer-id");
+            if (action && timerId) {
+              handleTimerAction(timerId, action);
+            }
           });
-          localStorage.removeItem(storageKey);
-          updateVisuals();
-          progress.focus();
-        });
 
-        document.getElementById("markAll").addEventListener("click", () => {
-          checks.forEach((cb) => {
-            cb.checked = true;
-            saved[cb.getAttribute("data-key")] = true;
+          document.getElementById("resetAll").addEventListener("click", () => {
+            if (confirm("Reset all checklist and timer progress for this cooking session?")) {
+              state = freshDefaultState();
+              saveState();
+              renderAll();
+            }
           });
-          localStorage.setItem(storageKey, JSON.stringify(saved));
-          updateVisuals();
-        });
 
-        updateVisuals();
+          document.getElementById("resetChecks").addEventListener("click", () => {
+            if (confirm("Reset all checked items?")) {
+              state.checks = {};
+              saveState();
+              renderAll();
+            }
+          });
+
+          document.getElementById("resetTimers").addEventListener("click", () => {
+            if (confirm("Reset all timers?")) {
+              state.timers = {};
+              saveState();
+              renderAll();
+            }
+          });
+        }
+
+        function handleTimerAction(timerId, action) {
+          const timer = getTimer(timerId);
+          updateTimerCountdown(timerId);
+
+          if (action === "start") {
+            const freshDuration = timerId === "pasta" ? Math.max(1, Number(state.pastaMinutes || 7)) * 60 : timer.duration;
+            timer.duration = freshDuration;
+            timer.remaining = timer.done || timer.remaining <= 0 ? freshDuration : timer.remaining;
+            timer.running = true;
+            timer.done = false;
+            timer.endAt = Date.now() + timer.remaining * 1000;
+          }
+
+          if (action === "pause") {
+            if (timer.running) {
+              updateTimerCountdown(timerId);
+              timer.running = false;
+              timer.endAt = null;
+            } else if (!timer.done && timer.remaining > 0) {
+              timer.running = true;
+              timer.endAt = Date.now() + timer.remaining * 1000;
+            }
+          }
+
+          if (action === "reset") {
+            state.timers[timerId] = timerDefaults(timerId);
+          }
+
+          saveState();
+          renderAll();
+          ensureTicker();
+        }
+
+        function updateTimerCountdown(timerId) {
+          const timer = getTimer(timerId);
+          if (!timer.running || !timer.endAt) {
+            return;
+          }
+
+          timer.remaining = Math.max(0, Math.ceil((timer.endAt - Date.now()) / 1000));
+
+          if (timer.remaining <= 0) {
+            timer.running = false;
+            timer.done = true;
+            timer.endAt = null;
+            announceTimer(timerId);
+          }
+        }
+
+        function updateAllTimers() {
+          let anyRunning = false;
+          timers.forEach(([timerId]) => {
+            const timer = getTimer(timerId);
+            if (timer.running) {
+              updateTimerCountdown(timerId);
+              anyRunning = anyRunning || getTimer(timerId).running;
+            }
+          });
+          saveState();
+          updateTimerDisplays();
+          updateProgress();
+
+          if (!anyRunning && tickHandle) {
+            clearInterval(tickHandle);
+            tickHandle = null;
+          }
+        }
+
+        function updateTimerDisplays() {
+          timers.forEach(([timerId]) => {
+            const timer = getTimer(timerId);
+            document.querySelectorAll(`[data-timer-time="${timerId}"]`).forEach((node) => {
+              node.textContent = formatTime(timer.remaining);
+            });
+            document.querySelectorAll(`[data-timer-card="${timerId}"]`).forEach((node) => {
+              node.classList.toggle("running", timer.running);
+              node.classList.toggle("done", timer.done);
+            });
+          });
+        }
+
+        function ensureTicker() {
+          const hasRunning = timers.some(([timerId]) => getTimer(timerId).running);
+          if (hasRunning && !tickHandle) {
+            tickHandle = setInterval(updateAllTimers, 1000);
+          }
+        }
+
+        function announceTimer(timerId) {
+          const timerData = timers.find((item) => item[0] === timerId);
+          const message = `${timerData[1]} timer is done.`;
+          document.getElementById("timerAnnouncement").textContent = message;
+          beep();
+        }
+
+        function beep() {
+          try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const context = new AudioContext();
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            oscillator.type = "sine";
+            oscillator.frequency.value = 880;
+            gain.gain.value = 0.05;
+            oscillator.connect(gain);
+            gain.connect(context.destination);
+            oscillator.start();
+            setTimeout(() => {
+              oscillator.stop();
+              context.close();
+            }, 220);
+          } catch (error) {
+            // Some browsers block audio until the user interacts; the visual alert still works.
+          }
+        }
+
+        function updateProgress() {
+          const total = allCheckDefinitions.length;
+          const checked = allCheckDefinitions.filter(([id]) => Boolean(state.checks[id])).length;
+          const percent = total ? Math.round((checked / total) * 100) : 0;
+          const doneTimers = timers.filter(([timerId]) => getTimer(timerId).done).length;
+          const runningTimer = timers.find(([timerId]) => getTimer(timerId).running);
+          const next = allCheckDefinitions.find(([id]) => !state.checks[id]);
+
+          document.getElementById("progressLine").textContent =
+            `${checked} of ${total} checklist items done. ${doneTimers} timers completed.`;
+          document.getElementById("progressFill").style.width = `${percent}%`;
+          document.getElementById("nextStep").textContent = runningTimer
+            ? `Timer running: ${runningTimer[1]} (${formatTime(getTimer(runningTimer[0]).remaining)} left).`
+            : next
+              ? `Next: ${next[1]}.`
+              : "Everything is checked. Serve and enjoy.";
+        }
+
+        function renderAll() {
+          timers.forEach(([timerId]) => updateTimerCountdown(timerId));
+          renderCheckList("ingredientList", purchasedIngredients);
+          renderCheckList("pantryList", pantryItems);
+          renderCheckList("gearList", gearItems);
+          renderStepList("prepList", prepSteps);
+          renderTimerBank();
+          renderStepList("cookList", cookSteps);
+          renderStepList("serveList", serveSteps);
+          updateProgress();
+          ensureTicker();
+        }
+
+        bindEvents();
+        renderAll();
       })();
     </script>
   </body>
