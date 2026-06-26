@@ -17,6 +17,7 @@ https://bbnso94.github.io/ingredient-checklist/
 - Independent timers for prep, browning, simmering, pasta, cheese melt, optional oven finish, optional broiler finish, and rest
 - Local browser persistence through `localStorage`
 - Live cross-device sync through a shared ntfy topic while devices are open on the page
+- A copy/paste replication prompt in `REPLICATION_PROMPT.md`
 
 ## Recipe Basis
 
@@ -33,6 +34,7 @@ chili mac method around what was actually purchased:
 ## Files
 
 - `index.html`: the full static cooking app
+- `REPLICATION_PROMPT.md`: a full prompt to recreate this project quickly
 - `.github/workflows/pages.yml`: GitHub Pages deployment workflow for this repo
 
 ## Persistence
