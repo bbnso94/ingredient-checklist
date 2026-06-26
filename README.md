@@ -1,7 +1,7 @@
-# Receipt-Based Chili Mac Cook Mode
+# Smoky Chipotle Chihuahua Chili Mac Cook Mode
 
-Interactive cooking companion for homemade chili mac for three, adapted to the
-actual Walmart receipt ingredients.
+Interactive cooking companion for the selected best recipe for 3 people at
+night: smoky chipotle chili mac with a Chihuahua-cheese queso finish and lime.
 
 Live site:
 
@@ -9,27 +9,28 @@ https://bbnso94.github.io/ingredient-checklist/
 
 ## What It Includes
 
-- Purchased ingredient checklist from the receipt
-- Pantry and optional upgrade checklist
-- Utensils and kitchenware checklist
-- Prep checklist
+- 3-person ingredient checklist scaled from the chosen recipe
+- Pantry, garnish, and heat-control checklist
+- Utensils and kitchenware checklist for pasta, chili, and queso stations
+- Detailed prep checklist
 - Step-by-step cooking guide
-- Independent timers for prep, browning, simmering, pasta, cheese melt, optional oven finish, optional broiler finish, and rest
+- Independent timers for prep, pasta, beef browning, aromatics, garlic, spice bloom, tomato paste, simmering, queso, folding, resting, and leftover cooling
 - Local browser persistence through `localStorage`
 - Live cross-device sync through a shared ntfy topic while devices are open on the page
 - A copy/paste replication prompt in `REPLICATION_PROMPT.md`
 
 ## Recipe Basis
 
-The app uses the receipt as the source of truth and adapts the recommended beef
-chili mac method around what was actually purchased:
+The app now uses the Chihuahua queso recipe decision as the backbone, scaled for
+3 generous servings:
 
-- Cheddar-only unless another melting cheese is already available
-- Green bell pepper instead of red bell pepper
-- Diced tomatoes plus tomato sauce instead of crushed tomatoes
-- Sour cream and green onions for finishing
-- Pantry checks for evaporated milk, Dijon, cornstarch, chipotle, butter, oil,
-  salt, pepper, and vinegar or lime
+- 8 oz elbow macaroni
+- about 12 oz 80 percent chuck ground beef
+- onion, bell pepper, green onion whites, garlic
+- chili powder, cumin, paprika, oregano, black pepper, kosher salt
+- tomato paste, diced tomatoes, tomato sauce, kidney beans, broth, Worcestershire
+- 1 chipotle pepper plus 1 tsp adobo for balanced smoky heat
+- 8 oz shredded Chihuahua cheese, 1 1/2 tsp cornstarch, 5 to 6 oz evaporated milk, 1 Tbsp butter, 2 Tbsp sour cream, and lime
 
 ## Files
 
@@ -37,7 +38,7 @@ chili mac method around what was actually purchased:
 - `REPLICATION_PROMPT.md`: a full prompt to recreate this project quickly
 - `.github/workflows/pages.yml`: GitHub Pages deployment workflow for this repo
 
-## Persistence
+## Persistence And Sync
 
 Checklist and timer state are stored in the browser on the current device.
 
