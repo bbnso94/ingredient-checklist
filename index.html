@@ -505,6 +505,7 @@
             <div id="progressFill" class="progress-fill"></div>
           </div>
           <p id="nextStep" class="next-step">Next: gather the receipt ingredients.</p>
+          <p id="syncStatus" class="progress-line" aria-live="polite">Live sync: starting...</p>
         </aside>
       </div>
 
@@ -638,6 +639,14 @@
     <script>
       (function () {
         const storageKey = "receipt-chili-mac-cook-state-v1";
+        const syncApp = "receipt-chili-mac-cook-mode-v1";
+        const syncTopic = "bbnso94-chili-mac-7ws8s8c45hx-live-sync-v1";
+        const syncUrl = `https://ntfy.sh/${syncTopic}`;
+        const clientId =
+          (window.crypto && window.crypto.randomUUID && window.crypto.randomUUID()) ||
+          `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        const bootedAt = Date.now();
+        const seenSyncIds = new Set();
 
         const purchasedIngredients = [
           ["elbow-macaroni", "Elbow macaroni", "Use 8 oz, about half of a 16 oz portion or 1/4 of the 32 oz box."],
@@ -782,6 +791,144 @@
           localStorage.setItem(storageKey, JSON.stringify(state));
         }
 
+        function setSyncStatus(message) {
+          const node = document.getElementById("syncStatus");
+          if (node) {
+            node.textContent = message;
+          }
+        }
+
+        function cloneStateForSync() {
+          return JSON.parse(JSON.stringify(state));
+        }
+
+        function publishSync(change) {
+          const syncId = `${clientId}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+          const payload = Object.assign(
+            {
+              app: syncApp,
+              syncId,
+              clientId,
+              timestamp: Date.now()
+            },
+            change
+          );
+
+          seenSyncIds.add(syncId);
+
+          fetch(syncUrl, {
+            method: "POST",
+            body: JSON.stringify(payload)
+          })
+            .then((response) => {
+              setSyncStatus(response.ok ? "Live sync: connected" : "Live sync: publish failed");
+            })
+            .catch(() => {
+              setSyncStatus("Live sync: offline, saved on this device");
+            });
+        }
+
+        function applyRemoteSync(payload) {
+          if (!payload || payload.app !== syncApp || payload.clientId === clientId) {
+            return;
+          }
+
+          if (payload.syncId && seenSyncIds.has(payload.syncId)) {
+            return;
+          }
+
+          if (payload.syncId) {
+            seenSyncIds.add(payload.syncId);
+          }
+
+          if (payload.type === "hello") {
+            if (!payload.timestamp || payload.timestamp < bootedAt - 30000) {
+              return;
+            }
+            setTimeout(() => {
+              publishSync({ type: "snapshot", state: cloneStateForSync() });
+            }, 150 + Math.random() * 400);
+            return;
+          }
+
+          let handled = false;
+
+          if (payload.type === "snapshot" && payload.state) {
+            state = Object.assign(freshDefaultState(), payload.state);
+            handled = true;
+          }
+
+          if (payload.type === "check" && payload.id) {
+            state.checks[payload.id] = Boolean(payload.checked);
+            handled = true;
+          }
+
+          if (payload.type === "timer" && payload.timerId && payload.timer) {
+            state.timers[payload.timerId] = payload.timer;
+            handled = true;
+          }
+
+          if (payload.type === "pasta") {
+            state.pastaMinutes = Math.max(1, Math.min(20, Number(payload.minutes || 7)));
+            state.timers.pasta = timerDefaults("pasta");
+            handled = true;
+          }
+
+          if (payload.type === "reset-all") {
+            state = freshDefaultState();
+            handled = true;
+          }
+
+          if (payload.type === "reset-checks") {
+            state.checks = {};
+            handled = true;
+          }
+
+          if (payload.type === "reset-timers") {
+            state.timers = {};
+            handled = true;
+          }
+
+          if (!handled) {
+            return;
+          }
+
+          saveState();
+          renderAll();
+          setSyncStatus("Live sync: updated from another device");
+        }
+
+        function connectLiveSync() {
+          if (!window.EventSource) {
+            setSyncStatus("Live sync: unsupported in this browser");
+            return;
+          }
+
+          setSyncStatus("Live sync: connecting...");
+          const source = new EventSource(`${syncUrl}/sse?since=all`);
+
+          source.onopen = () => {
+            setSyncStatus("Live sync: connected");
+            publishSync({ type: "hello" });
+          };
+
+          source.onmessage = (event) => {
+            try {
+              const envelope = JSON.parse(event.data);
+              if (envelope.event !== "message" || !envelope.message) {
+                return;
+              }
+              applyRemoteSync(JSON.parse(envelope.message));
+            } catch (error) {
+              // Ignore non-app messages on the public topic.
+            }
+          };
+
+          source.onerror = () => {
+            setSyncStatus("Live sync: reconnecting...");
+          };
+        }
+
         function timerDefaults(timerId) {
           const timer = timers.find((item) => item[0] === timerId);
           const duration = timerId === "pasta" ? Math.max(1, Number(state.pastaMinutes || 7)) * 60 : timer[2];
@@ -899,6 +1046,7 @@
             if (checkId) {
               state.checks[checkId] = event.target.checked;
               saveState();
+              publishSync({ type: "check", id: checkId, checked: event.target.checked });
               renderAll();
               return;
             }
@@ -907,6 +1055,7 @@
               state.pastaMinutes = Math.max(1, Math.min(20, Number(event.target.value || 7)));
               state.timers.pasta = timerDefaults("pasta");
               saveState();
+              publishSync({ type: "pasta", minutes: state.pastaMinutes });
               renderAll();
             }
           });
@@ -923,6 +1072,7 @@
             if (confirm("Reset all checklist and timer progress for this cooking session?")) {
               state = freshDefaultState();
               saveState();
+              publishSync({ type: "reset-all" });
               renderAll();
             }
           });
@@ -931,6 +1081,7 @@
             if (confirm("Reset all checked items?")) {
               state.checks = {};
               saveState();
+              publishSync({ type: "reset-checks" });
               renderAll();
             }
           });
@@ -939,6 +1090,7 @@
             if (confirm("Reset all timers?")) {
               state.timers = {};
               saveState();
+              publishSync({ type: "reset-timers" });
               renderAll();
             }
           });
@@ -973,6 +1125,7 @@
           }
 
           saveState();
+          publishSync({ type: "timer", timerId, timer: getTimer(timerId) });
           renderAll();
           ensureTicker();
         }
@@ -1093,6 +1246,7 @@
 
         bindEvents();
         renderAll();
+        connectLiveSync();
       })();
     </script>
   </body>
